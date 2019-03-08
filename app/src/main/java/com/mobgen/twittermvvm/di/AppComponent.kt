@@ -8,7 +8,10 @@ import dagger.android.support.AndroidSupportInjectionModule
 @Component(
     modules = [
         AndroidSupportInjectionModule::class,
-        MainModule::class
+        MainModule::class,
+        ApplicationModule::class,
+        ServicesModule::class,
+        RepositoryModule::class
     ]
 )
 interface AppComponent : AndroidInjector<TwitterApplication> {

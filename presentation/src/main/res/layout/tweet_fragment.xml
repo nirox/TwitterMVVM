@@ -1,21 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".tweet.TweetFragment">
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tweet_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:clickable="true"
+    android:orientation="vertical"
+    tools:context=".tweet.TweetFragment">
+
+
+    <ImageView
+        android:id="@+id/userImage"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@android:drawable/ic_lock_lock" />
 
     <TextView
-            android:id="@+id/message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TweetFragment"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+        android:id="@+id/userName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="8dp"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/twitterContent"
+        app:layout_constraintStart_toEndOf="@+id/userImage"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Pepe" />
 
+    <TextView
+        android:id="@+id/userId"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/twitterContent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/userName"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@Pepe95" />
+
+    <TextView
+        android:id="@+id/twitterContent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="12dp"
+        android:paddingBottom="12dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userImage"
+        tools:text="Científico británico recibió un premio por rehabilitar una computadora de los años 50 que servía para redactar apasionadas cartas de amor." />
 </android.support.constraint.ConstraintLayout>
