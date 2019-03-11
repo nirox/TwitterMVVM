@@ -37,6 +37,17 @@ class TwitterListAdapter(private var list: List<TweetBindView>, private val list
             itemView.setOnClickListener {
                 listener.onClickItem(list[adapterPosition].id)
             }
+            itemView.twitterVideo.setOnClickListener {
+                if (itemView.twitterVideo.isPlaying) {
+                    itemView.twitterVideo.pause()
+                } else {
+                    itemView.twitterVideo.start()
+                }
+            }
+            itemView.twitterVideo.setOnCompletionListener {
+                itemView.twitterVideo.seekTo(1)
+            }
+
         }
 
         override fun bind(value: TweetBindView) {
@@ -45,6 +56,23 @@ class TwitterListAdapter(private var list: List<TweetBindView>, private val list
             itemView.userId.text = value.userId
             itemView.userName.text = value.name
             itemView.twitterContent.text = value.content
+            itemView.twitterMedia.visibility = View.GONE
+            itemView.twitterVideo.visibility = View.GONE
+            if (value.videos.isNotEmpty()) {
+                itemView.twitterVideo.apply {
+                    visibility = View.VISIBLE
+                    setVideoPath(value.videos.first())
+                    seekTo(1)
+                }
+            } else {
+                if (value.medias.isNotEmpty()) {
+                    itemView.twitterMedia.visibility = View.VISIBLE
+                    Glide.with(itemView.context).load(value.medias.first())
+                        .into(itemView.twitterMedia)
+                }
+            }
+
+
         }
 
     }

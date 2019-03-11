@@ -1,7 +1,7 @@
 package com.mobgen.presentation.twitter
 
-import android.app.Activity
 import android.arch.lifecycle.Observer
+import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import com.mobgen.domain.check
 import com.mobgen.presentation.BaseViewModel
 import com.mobgen.presentation.FragmentListener
-import com.mobgen.presentation.MainActivity
 import com.mobgen.presentation.R
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.twitter_fragment.*
@@ -22,6 +21,8 @@ class TwitterListFragment : DaggerFragment() {
 
     @Inject
     lateinit var viewModel: TwitterViewModel
+
+    private lateinit var activity: FragmentListener
 
 
     companion object {
@@ -38,11 +39,17 @@ class TwitterListFragment : DaggerFragment() {
     private val twitterListAdapter: TwitterListAdapter =
         TwitterListAdapter(listOf(), object : TwitterListAdapter.OnClickItemListener {
             override fun onClickItem(id: Long) {
-                (context as MainActivity).goTweetFragment(id)
+                activity.goTweetFragment(id)
             }
 
         })
 
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        context?.let {
+            activity = it as FragmentListener
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.twitter_fragment, container, false)
@@ -83,13 +90,13 @@ class TwitterListFragment : DaggerFragment() {
         super.onResume()
         arguments?.getString(ARG_SEARCH).check(
             ifNull = {
-                (context as FragmentListener).searchVisibily(true)
-                (context as FragmentListener).buttonBackInActionBar(false)
+                activity.searchVisibily(true)
+                activity.buttonBackInActionBar(false)
 
             },
             ifNotNull = {
-                (context as FragmentListener).searchVisibily(false)
-                (context as FragmentListener).buttonBackInActionBar(true)
+                activity.searchVisibily(false)
+                activity.buttonBackInActionBar(true)
             }
         )
     }
@@ -106,7 +113,7 @@ class TwitterListFragment : DaggerFragment() {
                 val firstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition()
 
                 if (visibleItemCount + firstVisibleItemPosition >= totalItemCount - SCROLL_RANGE_TO_NEXT_PAGE
-                    && firstVisibleItemPosition >= 0 && viewModel.status.value != BaseViewModel.Status.LOADING
+                    && firstVisibleItemPosition >= 0 && viewModel.status.value == BaseViewModel.Status.SUCCESS
                 ) {
                     viewModel.nextPage()
                 }
@@ -123,11 +130,11 @@ class TwitterListFragment : DaggerFragment() {
     private fun getData() {
         arguments?.getString(ARG_SEARCH).check(
             ifNull = {
-                (context as Activity).title = getText(R.string.mobgen_time_line)
+                activity.changeTitle(getString(R.string.mobgen_time_line))
                 viewModel.loadData()
             },
             ifNotNull = {
-                (context as Activity).title = "${getText(R.string.search)} - ${it.capitalize()}"
+                activity.changeTitle("${getText(R.string.search)} - ${it.capitalize()}")
                 viewModel.loadData(it)
             }
         )

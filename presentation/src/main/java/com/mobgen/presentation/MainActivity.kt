@@ -1,6 +1,7 @@
 package com.mobgen.presentation
 
 import android.arch.lifecycle.Observer
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
@@ -52,6 +53,7 @@ class MainActivity : DaggerAppCompatActivity(), FragmentListener {
         return super.onCreateOptionsMenu(menu)
     }
 
+
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
@@ -97,8 +99,7 @@ class MainActivity : DaggerAppCompatActivity(), FragmentListener {
     }
 
     override fun searchVisibily(check: Boolean) {
-        if (::searchView.isInitialized)
-            searchView.visibility = if (check) View.VISIBLE else View.INVISIBLE
+        searchView.visibility = if (check) View.VISIBLE else View.GONE
     }
 
     override fun buttonBackInActionBar(check: Boolean) {
@@ -106,6 +107,10 @@ class MainActivity : DaggerAppCompatActivity(), FragmentListener {
             setDisplayHomeAsUpEnabled(check)
             setDisplayShowHomeEnabled(check)
         }
+    }
+
+    override fun changeTitle(title: String){
+        this.title = title
     }
 
     private fun resetSearch() {

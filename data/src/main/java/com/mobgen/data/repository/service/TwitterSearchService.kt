@@ -14,6 +14,6 @@ interface TwitterSearchService {
         @Query("max_id") maxId: String? = null,
         @Query("count") count: String? = null,
         @Query("tweet_mode") mode: String? = null,
-        @Query("include_entities") includeEntities: Boolean = false
+        @Query("include_entities") includeEntities: Boolean = true
     ): Single<SearchTweetsEntity>
 }

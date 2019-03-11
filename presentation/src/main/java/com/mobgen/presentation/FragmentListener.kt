@@ -6,4 +6,5 @@ interface FragmentListener {
     fun goTweetListFragment(search: String)
     fun searchVisibily(check: Boolean)
     fun buttonBackInActionBar(check: Boolean)
+    fun changeTitle(title: String)
 }

@@ -3,8 +3,8 @@ package com.mobgen.data.entity
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class EntitiesEntity(
+data class VideoInfoEntity (
     @Expose
-    @SerializedName("media")
-    val mediaEntityList: List<MediaEntity> = listOf()
+    @SerializedName("variants")
+    val variants: List<VariantEntity>? = listOf()
 )

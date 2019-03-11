@@ -19,16 +19,21 @@
 
     <TextView
         android:id="@+id/userName"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginTop="12dp"
+        android:ellipsize="end"
+        android:gravity="start"
+        android:maxLines="1"
         android:textColor="@android:color/black"
         android:textStyle="bold"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toStartOf="@+id/userId"
+        app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@+id/userImage"
         app:layout_constraintTop_toTopOf="parent"
-        android:maxLines="1"
-        tools:text="Pepejhkjhkjhkjhkjhkjhkjhkjhkjkkj" />
+        tools:text="Pepe" />
 
     <TextView
         android:id="@+id/userId"
@@ -37,24 +42,52 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="12dp"
+        android:maxLines="1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@+id/userName"
         app:layout_constraintTop_toTopOf="parent"
-        android:maxLines="1"
         tools:text="@Pepe95" />
 
     <TextView
         android:id="@+id/twitterContent"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="42dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="6dp"
         android:layout_marginEnd="12dp"
-        android:layout_marginBottom="12dp"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/userImage"
         app:layout_constraintTop_toBottomOf="@+id/userId"
         tools:text="Científico británico recibió un premio por rehabilitar una computadora de los años 50 que servía para redactar apasionadas cartas de amor." />
+
+    <ImageView
+        android:id="@+id/twitterMedia"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="12dp"
+        android:paddingBottom="12dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/userImage"
+        app:layout_constraintTop_toBottomOf="@+id/twitterContent"
+        tools:visibility="visible" />
+
+    <VideoView
+        android:id="@+id/twitterVideo"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="12dp"
+        android:paddingBottom="12dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/userImage"
+        app:layout_constraintTop_toBottomOf="@+id/twitterContent"
+        tools:visibility="visible" />
 </android.support.constraint.ConstraintLayout>

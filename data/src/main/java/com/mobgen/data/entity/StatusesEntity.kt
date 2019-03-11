@@ -10,10 +10,10 @@ data class StatusesEntity(
     val id: Long,
     @Expose
     @SerializedName("entities")
-    val entity: EntitiesEntity,
+    val entity: EntitiesEntity?,
     @Expose
     @SerializedName("extended_entities")
-    val extendedEntities: EntitiesEntity,
+    val extendedEntities: EntitiesEntity?,
     @Expose
     @SerializedName("user")
     val userEntity: UserEntity

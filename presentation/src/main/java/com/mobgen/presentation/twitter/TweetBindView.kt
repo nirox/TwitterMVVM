@@ -5,5 +5,7 @@ data class TweetBindView (
     val image: String,
     val userId: String,
     val name: String,
-    val content: String
+    val content: String,
+    val medias: List<String>,
+    val videos: List<String>
 )

@@ -11,6 +11,8 @@ class TweetDataMapper @Inject constructor() : DataMapper<StatusesEntity, Tweet> 
             value.userEntity.profileImage,
             value.userEntity.screenName,
             value.userEntity.name,
-            value.text
+            value.text,
+                value.entity?.mediaEntityList?.map { it.mediaUrlHttps } ?: listOf(),
+            value.extendedEntities?.mediaEntityList?.mapNotNull { it.videoInfo?.variants?.first()?.url  } ?: listOf()
         )
 }
