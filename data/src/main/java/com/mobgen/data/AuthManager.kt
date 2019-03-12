@@ -1,6 +1,6 @@
 package com.mobgen.data
 
-interface SharedPreferencesManager {
+interface AuthManager {
     fun getAuthBearer(): String
     fun setAuthBearer(bearer: String): Boolean
 }

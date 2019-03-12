@@ -1,12 +1,12 @@
 package com.mobgen.data.repository
 
 import TwitterApiConstants
-import com.mobgen.data.SharedPreferencesManager
+import com.mobgen.data.AuthManager
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
 
-class AuthenticationInterceptor @Inject constructor(private val sharedPreferencesManager: SharedPreferencesManager) :
+class AuthenticationInterceptor @Inject constructor(private val sharedPreferencesManager: AuthManager) :
     Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {

@@ -1,7 +1,7 @@
 package com.mobgen.data.repository
 
 import TwitterApiConstants
-import com.mobgen.data.SharedPreferencesManager
+import com.mobgen.data.AuthManager
 import com.mobgen.data.mapper.TweetDataMapper
 import com.mobgen.data.repository.service.AuthenticationService
 import com.mobgen.data.repository.service.TwitterSearchService
@@ -20,7 +20,7 @@ class TwitterRepositoryImpl @Inject constructor(
     private val authenticationService: AuthenticationService,
     private val twitterSearchService: TwitterSearchService,
     private val twitterTimeLineService: TwitterTimeLineService,
-    private val sharedPreferencesManager: SharedPreferencesManager,
+    private val authManager: AuthManager,
     private val tweetDataMapper: TweetDataMapper,
     @Named("token") private val token: String
 ) : TwitterRepository {
@@ -69,7 +69,7 @@ class TwitterRepositoryImpl @Inject constructor(
             ).subscribe(
                 executor = Schedulers.newThread(),
                 onSuccess = { authenticationEntity ->
-                    sharedPreferencesManager.setAuthBearer(authenticationEntity.accessToken)
+                    authManager.setAuthBearer(authenticationEntity.accessToken)
                     emitter.onComplete()
                 },
                 onError = {

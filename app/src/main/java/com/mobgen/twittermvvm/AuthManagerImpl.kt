@@ -1,9 +1,9 @@
 package com.mobgen.twittermvvm
 
 import android.content.Context
-import com.mobgen.data.SharedPreferencesManager
+import com.mobgen.data.AuthManager
 
-class SharedPreferencesManagerImpl(context: Context) : SharedPreferencesManager {
+class AuthManagerImpl(context: Context) : AuthManager {
 
     companion object {
         private const val SHARED_PREFERENCE_NAME = "twitterMVVM-Preferences"
