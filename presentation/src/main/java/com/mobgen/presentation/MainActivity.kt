@@ -1,7 +1,7 @@
 package com.mobgen.presentation
 
 import android.arch.lifecycle.Observer
-import android.content.res.Configuration
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
@@ -15,12 +15,15 @@ import javax.inject.Inject
 class MainActivity : DaggerAppCompatActivity(), FragmentListener {
 
     @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
     lateinit var viewModel: MainViewModel
     private lateinit var searchView: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
 
         viewModel.status.observe(this, Observer {
             it?.let { status ->
@@ -109,7 +112,7 @@ class MainActivity : DaggerAppCompatActivity(), FragmentListener {
         }
     }
 
-    override fun changeTitle(title: String){
+    override fun changeTitle(title: String) {
         this.title = title
     }
 

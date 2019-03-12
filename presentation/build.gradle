@@ -55,6 +55,10 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxkotlin:$rxKotlin_version"
     implementation "io.reactivex.rxjava2:rxandroid:$rxAndroid_version"
 
+    //lifecycle
+    implementation "android.arch.lifecycle:extensions:$lifecycle_version"
+    implementation "android.arch.lifecycle:viewmodel:$lifecycle_version"
+
     implementation project(':domain')
 }
 repositories {

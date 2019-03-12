@@ -1,6 +1,7 @@
 package com.mobgen.presentation.twitter
 
 import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -12,6 +13,7 @@ import com.mobgen.domain.check
 import com.mobgen.presentation.BaseViewModel
 import com.mobgen.presentation.FragmentListener
 import com.mobgen.presentation.R
+import com.mobgen.presentation.ViewModelFactory
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.twitter_fragment.*
 import javax.inject.Inject
@@ -19,8 +21,10 @@ import javax.inject.Inject
 
 class TwitterListFragment : DaggerFragment() {
 
-    @Inject
     lateinit var viewModel: TwitterViewModel
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var activity: FragmentListener
 
@@ -57,6 +61,7 @@ class TwitterListFragment : DaggerFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(TwitterViewModel::class.java)
         initView()
     }
 

@@ -5,12 +5,11 @@ import com.mobgen.domain.useCase.GetTimeLine
 import com.mobgen.domain.useCase.Search
 import com.mobgen.presentation.BaseViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
-import javax.inject.Inject
 
-class TwitterViewModel @Inject constructor(
+class TwitterViewModel(
     private val getTimeLine: GetTimeLine,
     private val search: Search,
-    private val tweetBindViewMapper: TweetBindViewMapper
+    private val tweetBindViewMapper: TwitterListBindViewMapper
 ) : BaseViewModel() {
     var tweets = listOf<TweetBindView>()
     private var searchQuery = ""

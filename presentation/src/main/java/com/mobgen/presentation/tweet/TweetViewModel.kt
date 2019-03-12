@@ -4,10 +4,9 @@ import com.mobgen.domain.subscribe
 import com.mobgen.domain.useCase.GetTweetById
 import com.mobgen.presentation.BaseViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
-import javax.inject.Inject
 
 
-class TweetViewModel @Inject constructor(
+class TweetViewModel(
     private val getTweetById: GetTweetById,
     private val tweetBindViewMapper: TweetBindViewMapper
 ) : BaseViewModel() {

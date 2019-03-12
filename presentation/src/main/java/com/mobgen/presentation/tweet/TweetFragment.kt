@@ -1,6 +1,7 @@
 package com.mobgen.presentation.tweet
 
 import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.mobgen.presentation.BaseViewModel
 import com.mobgen.presentation.FragmentListener
 import com.mobgen.presentation.R
+import com.mobgen.presentation.ViewModelFactory
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.tweet_fragment.*
 import javax.inject.Inject
@@ -18,6 +20,8 @@ import javax.inject.Inject
 class TweetFragment : DaggerFragment() {
 
     @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
     lateinit var viewModel: TweetViewModel
     private lateinit var activity: FragmentListener
 
@@ -42,6 +46,8 @@ class TweetFragment : DaggerFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(TweetViewModel::class.java)
         viewModel.status.observe(this, Observer {
             it?.let { status ->
                 if (status == BaseViewModel.Status.SUCCESS) {
