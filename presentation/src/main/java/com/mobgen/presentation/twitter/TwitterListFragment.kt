@@ -127,20 +127,20 @@ class TwitterListFragment : DaggerFragment() {
         })
 
         swipeRefresh.setOnRefreshListener {
-            getData()
+            getData(true)
         }
 
     }
 
-    private fun getData() {
+    private fun getData(force: Boolean = false) {
         arguments?.getString(ARG_SEARCH).check(
             ifNull = {
                 activity.changeTitle(getString(R.string.mobgen_time_line))
-                viewModel.loadData()
+                viewModel.loadData(force)
             },
             ifNotNull = {
                 activity.changeTitle("${getText(R.string.search)} - ${it.capitalize()}")
-                viewModel.loadData(it)
+                viewModel.loadData(it, force)
             }
         )
     }

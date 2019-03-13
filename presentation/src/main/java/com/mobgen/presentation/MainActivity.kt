@@ -4,7 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.Menu
-import android.view.View
+import android.view.MenuItem
 import android.widget.SearchView
 import com.mobgen.presentation.adapter.OnQueryTextListenerAdapter
 import com.mobgen.presentation.tweet.TweetFragment
@@ -18,6 +18,7 @@ class MainActivity : DaggerAppCompatActivity(), FragmentListener {
     lateinit var viewModelFactory: ViewModelFactory
 
     lateinit var viewModel: MainViewModel
+    private var searchItem: MenuItem? = null
     private lateinit var searchView: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,20 +29,24 @@ class MainActivity : DaggerAppCompatActivity(), FragmentListener {
         viewModel.data.observe(this, Observer {
             it?.let { data ->
                 if (data.status == BaseViewModel.Status.SUCCESS) {
-                    goTweetListFragment()
+                    if (data.goTwitterFragment) {
+                        goTweetListFragment()
+                        data.goTwitterFragment = false
+                    }
+                    searchItem?.isVisible = data.searchViewVisibility
                 }
             }
         })
+
         viewModel.authenticate()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val visibility = if (::searchView.isInitialized) searchView.visibility else View.VISIBLE
         menuInflater.inflate(R.menu.menu_search, menu)
-        val searchItem = menu?.findItem(R.id.action_search)
+        searchItem = menu?.findItem(R.id.action_search)
+        searchItem?.isVisible = viewModel.data.value?.searchViewVisibility != false
         searchView = searchItem?.actionView as SearchView
         searchView.queryHint = getText(R.string.search)
-        searchView.visibility = visibility
         searchView.setOnQueryTextListener(object : OnQueryTextListenerAdapter() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let {
@@ -55,7 +60,6 @@ class MainActivity : DaggerAppCompatActivity(), FragmentListener {
 
         return super.onCreateOptionsMenu(menu)
     }
-
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
@@ -102,7 +106,7 @@ class MainActivity : DaggerAppCompatActivity(), FragmentListener {
     }
 
     override fun searchVisibily(check: Boolean) {
-        searchView.visibility = if (check) View.VISIBLE else View.GONE
+        viewModel.setSearchVisibility(check)
     }
 
     override fun buttonBackInActionBar(check: Boolean) {

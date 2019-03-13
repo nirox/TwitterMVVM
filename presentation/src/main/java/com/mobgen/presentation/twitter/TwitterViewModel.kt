@@ -17,51 +17,54 @@ class TwitterViewModel(
         data.value = twitterViewData
     }
 
-    fun loadData() {
-        data.value = twitterViewData.apply { status = Status.LOADING }
-        executeUseCase {
-            getTimeLine.execute().subscribe(
-                executor = AndroidSchedulers.mainThread(),
-                onSuccess = { tweetsReponse ->
-                    data.postValue(twitterViewData.apply {
-                        tweets = tweetsReponse.map(tweetBindViewMapper::map)
-                        status = Status.SUCCESS
-                    })
+    fun loadData(force: Boolean = false) {
+        if (twitterViewData.tweets.isEmpty() || force) {
+            data.value = twitterViewData.apply { status = Status.LOADING }
+            executeUseCase {
+                getTimeLine.execute().subscribe(
+                    executor = AndroidSchedulers.mainThread(),
+                    onSuccess = { tweetsReponse ->
+                        data.postValue(twitterViewData.apply {
+                            tweets = tweetsReponse.map(tweetBindViewMapper::map)
+                            status = Status.SUCCESS
+                        })
 
-                },
-                onError = {
-                    data.postValue(twitterViewData.apply {
-                        status = Status.ERROR
-                    })
-                    throw  it
-                }
-            )
+                    },
+                    onError = {
+                        data.postValue(twitterViewData.apply {
+                            status = Status.ERROR
+                        })
+                        throw  it
+                    }
+                )
+            }
         }
-
     }
 
-    fun loadData(query: String) {
-        data.value = twitterViewData.apply {
-            searchQuery = query
-            status = Status.LOADING
-        }
-        executeUseCase {
-            search.execute(query).subscribe(
-                executor = AndroidSchedulers.mainThread(),
-                onSuccess = { tweetsReponse ->
-                    data.postValue(twitterViewData.apply {
-                        tweets = tweetsReponse.map(tweetBindViewMapper::map)
-                        status = Status.SUCCESS
-                    })
+    fun loadData(query: String, force: Boolean = false) {
+        if (twitterViewData.tweets.isEmpty() || force) {
+            data.value = twitterViewData.apply {
+                searchQuery = query
+                status = Status.LOADING
+            }
+            executeUseCase {
+                search.execute(query).subscribe(
+                    executor = AndroidSchedulers.mainThread(),
+                    onSuccess = { tweetsReponse ->
+                        data.postValue(twitterViewData.apply {
+                            tweets = tweetsReponse.map(tweetBindViewMapper::map)
+                            status = Status.SUCCESS
+                        })
 
-                },
-                onError = {
-                    data.postValue(twitterViewData.apply {
-                        status = Status.ERROR
-                    })
-                    throw  it
-                }
-            )
+                    },
+                    onError = {
+                        data.postValue(twitterViewData.apply {
+                            status = Status.ERROR
+                        })
+                        throw  it
+                    }
+                )
+            }
         }
     }
 
