@@ -5,13 +5,9 @@ import android.arch.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
-open class BaseViewModel : ViewModel() {
+open class BaseViewModel<T : BaseViewModel.Data> : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
-    val status: MutableLiveData<Status> = MutableLiveData()
-
-    init {
-        status.postValue(Status.LOADING)
-    }
+    val data: MutableLiveData<T> = MutableLiveData()
 
     override fun onCleared() {
         super.onCleared()
@@ -27,6 +23,10 @@ open class BaseViewModel : ViewModel() {
         LOADING_NEXT_PAGE,
         SUCCESS,
         ERROR
+    }
+
+    interface Data {
+        var status: Status
     }
 
 }

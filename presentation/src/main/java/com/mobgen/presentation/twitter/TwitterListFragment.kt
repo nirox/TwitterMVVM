@@ -67,9 +67,9 @@ class TwitterListFragment : DaggerFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.status.observe(this, Observer {
-            it?.let { status ->
-                when (status) {
+        viewModel.data.observe(this, Observer {
+            it?.let { data ->
+                when (data.status) {
                     BaseViewModel.Status.LOADING -> {
                         swipeRefresh.isRefreshing = true
                     }
@@ -79,7 +79,7 @@ class TwitterListFragment : DaggerFragment() {
                     BaseViewModel.Status.SUCCESS -> {
                         swipeRefresh.isRefreshing = false
                         load_more_item_progress.visibility = View.INVISIBLE
-                        twitterListAdapter.setData(viewModel.tweets)
+                        twitterListAdapter.setData(data.tweets)
                     }
                     BaseViewModel.Status.ERROR -> {
                         //TODO Error method
@@ -118,7 +118,7 @@ class TwitterListFragment : DaggerFragment() {
                 val firstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition()
 
                 if (visibleItemCount + firstVisibleItemPosition >= totalItemCount - SCROLL_RANGE_TO_NEXT_PAGE
-                    && firstVisibleItemPosition >= 0 && viewModel.status.value == BaseViewModel.Status.SUCCESS
+                    && firstVisibleItemPosition >= 0 && viewModel.data.value?.status == BaseViewModel.Status.SUCCESS
                 ) {
                     viewModel.nextPage()
                 }

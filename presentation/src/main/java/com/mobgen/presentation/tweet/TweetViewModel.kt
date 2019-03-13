@@ -5,27 +5,35 @@ import com.mobgen.domain.useCase.GetTweetById
 import com.mobgen.presentation.BaseViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 
-
 class TweetViewModel(
     private val getTweetById: GetTweetById,
     private val tweetBindViewMapper: TweetBindViewMapper
-) : BaseViewModel() {
-    lateinit var tweet: TweetBindView
+) : BaseViewModel<TweetViewModel.TweetViewData>() {
+    private val tweetViewData = TweetViewData()
 
     fun loadData(id: Long) {
-        status.value = Status.LOADING
+        data.value = tweetViewData.apply { status = Status.LOADING }
         executeUseCase {
             getTweetById.execute(id).subscribe(
                 executor = AndroidSchedulers.mainThread(),
                 onSuccess = {
-                    tweet = tweetBindViewMapper.map(it)
-                    status.postValue(Status.SUCCESS)
+                    data.postValue(tweetViewData.apply {
+                        status = Status.SUCCESS
+                        tweet = tweetBindViewMapper.map(it)
+                    })
                 },
                 onError = {
-                    status.postValue(Status.ERROR)
+                    data.postValue(tweetViewData.apply {
+                        status = Status.ERROR
+                    })
                     throw it
                 }
             )
         }
     }
+
+    class TweetViewData(
+        override var status: Status = Status.LOADING,
+        var tweet: TweetBindView = TweetBindView()
+    ) : BaseViewModel.Data
 }

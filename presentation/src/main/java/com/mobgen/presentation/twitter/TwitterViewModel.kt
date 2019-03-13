@@ -10,22 +10,29 @@ class TwitterViewModel(
     private val getTimeLine: GetTimeLine,
     private val search: Search,
     private val tweetBindViewMapper: TwitterListBindViewMapper
-) : BaseViewModel() {
-    var tweets = listOf<TweetBindView>()
-    private var searchQuery = ""
+) : BaseViewModel<TwitterViewModel.TwitterViewData>() {
+    private var twitterViewData = TwitterViewModel.TwitterViewData(Status.LOADING, listOf(), "")
+
+    init {
+        data.value = twitterViewData
+    }
 
     fun loadData() {
-        status.value = Status.LOADING
+        data.value = twitterViewData.apply { status = Status.LOADING }
         executeUseCase {
             getTimeLine.execute().subscribe(
                 executor = AndroidSchedulers.mainThread(),
-                onSuccess = { tweets ->
-                    this.tweets = tweets.map(tweetBindViewMapper::map)
-                    status.postValue(Status.SUCCESS)
+                onSuccess = { tweetsReponse ->
+                    data.postValue(twitterViewData.apply {
+                        tweets = tweetsReponse.map(tweetBindViewMapper::map)
+                        status = Status.SUCCESS
+                    })
 
                 },
                 onError = {
-                    status.postValue(Status.ERROR)
+                    data.postValue(twitterViewData.apply {
+                        status = Status.ERROR
+                    })
                     throw  it
                 }
             )
@@ -33,41 +40,51 @@ class TwitterViewModel(
 
     }
 
-    fun loadData(searchQuery: String) {
-        this.searchQuery = searchQuery
-        status.value = Status.LOADING
+    fun loadData(query: String) {
+        data.value = twitterViewData.apply {
+            searchQuery = query
+            status = Status.LOADING
+        }
         executeUseCase {
-            search.execute(searchQuery).subscribe(
+            search.execute(query).subscribe(
                 executor = AndroidSchedulers.mainThread(),
-                onSuccess = { tweets ->
-                    this.tweets = tweets.map(tweetBindViewMapper::map)
-                    status.postValue(Status.SUCCESS)
+                onSuccess = { tweetsReponse ->
+                    data.postValue(twitterViewData.apply {
+                        tweets = tweetsReponse.map(tweetBindViewMapper::map)
+                        status = Status.SUCCESS
+                    })
 
                 },
                 onError = {
-                    status.postValue(Status.ERROR)
+                    data.postValue(twitterViewData.apply {
+                        status = Status.ERROR
+                    })
                     throw  it
                 }
             )
         }
     }
 
-    fun nextPage() = if (searchQuery.isNotBlank()) nextPageSearch() else nextPageTimeLine()
+    fun nextPage() = if (twitterViewData.searchQuery.isNotBlank()) nextPageSearch() else nextPageTimeLine()
 
     private fun nextPageSearch() {
-        status.value = Status.LOADING_NEXT_PAGE
+        data.value = twitterViewData.apply { status = Status.LOADING_NEXT_PAGE }
         executeUseCase {
-            search.next(searchQuery).subscribe(
+            search.next(twitterViewData.searchQuery).subscribe(
                 executor = AndroidSchedulers.mainThread(),
-                onSuccess = { tweets ->
-                    val aux = this.tweets.toMutableList()
-                    aux.addAll(tweets.map(tweetBindViewMapper::map))
-                    this.tweets = aux
-                    status.postValue(Status.SUCCESS)
+                onSuccess = { tweetsResponse ->
+                    val aux = twitterViewData.tweets.toMutableList()
+                    aux.addAll(tweetsResponse.map(tweetBindViewMapper::map))
+                    data.postValue(twitterViewData.apply {
+                        status = Status.SUCCESS
+                        tweets = aux
+                    })
 
                 },
                 onError = {
-                    status.postValue(Status.ERROR)
+                    data.postValue(twitterViewData.apply {
+                        status = Status.ERROR
+                    })
                     throw  it
                 }
             )
@@ -75,21 +92,27 @@ class TwitterViewModel(
     }
 
     private fun nextPageTimeLine() {
-        status.value = Status.LOADING_NEXT_PAGE
+        data.value = twitterViewData.apply { status = Status.LOADING_NEXT_PAGE }
         executeUseCase {
             getTimeLine.next().subscribe(
                 executor = AndroidSchedulers.mainThread(),
-                onSuccess = { tweets ->
-                    val aux = this.tweets.toMutableList()
-                    aux.addAll(tweets.map(tweetBindViewMapper::map))
-                    this.tweets = aux
-                    status.postValue(Status.SUCCESS)
+                onSuccess = { tweetsResponse ->
+                    val aux = twitterViewData.tweets.toMutableList()
+                    aux.addAll(tweetsResponse.map(tweetBindViewMapper::map))
+                    data.postValue(twitterViewData.apply {
+                        status = Status.SUCCESS
+                        tweets = aux
+                    })
                 },
                 onError = {
-                    status.postValue(Status.ERROR)
+                    data.postValue(twitterViewData.apply {
+                        status = Status.ERROR
+                    })
                     throw  it
                 }
             )
         }
     }
+
+    class TwitterViewData(override var status: Status, var tweets: List<TweetBindView>, var searchQuery: String) : Data
 }

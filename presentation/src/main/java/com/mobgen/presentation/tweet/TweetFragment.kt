@@ -48,21 +48,21 @@ class TweetFragment : DaggerFragment() {
         super.onActivityCreated(savedInstanceState)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(TweetViewModel::class.java)
-        viewModel.status.observe(this, Observer {
-            it?.let { status ->
-                if (status == BaseViewModel.Status.SUCCESS) {
-                    userName.text = viewModel.tweet.name
-                    userId.text = viewModel.tweet.id
-                    twitterContent.text = viewModel.tweet.content
-                    Glide.with(this).load(viewModel.tweet.image).apply(RequestOptions.circleCropTransform())
+        viewModel.data.observe(this, Observer {
+            it?.let { data ->
+                if (data.status == BaseViewModel.Status.SUCCESS) {
+                    userName.text = data.tweet.name
+                    userId.text = data.tweet.id
+                    twitterContent.text = data.tweet.content
+                    Glide.with(this).load(data.tweet.image).apply(RequestOptions.circleCropTransform())
                         .into(userImage)
 
                     twitterMedia.visibility = View.GONE
                     twitterVideo.visibility = View.GONE
-                    if (viewModel.tweet.videos.isNotEmpty()) {
+                    if (data.tweet.videos.isNotEmpty()) {
                         twitterVideo.apply {
                             visibility = View.VISIBLE
-                            setVideoPath(viewModel.tweet.videos.first())
+                            setVideoPath(data.tweet.videos.first())
                         }.start()
 
                         twitterVideo.setOnClickListener {
@@ -77,9 +77,9 @@ class TweetFragment : DaggerFragment() {
                             twitterVideo.seekTo(1)
                         }
                     } else {
-                        if (viewModel.tweet.medias.isNotEmpty()) {
+                        if (data.tweet.medias.isNotEmpty()) {
                             twitterMedia.visibility = View.VISIBLE
-                            Glide.with(this).load(viewModel.tweet.medias.first())
+                            Glide.with(this).load(data.tweet.medias.first())
                                 .into(twitterMedia)
                         }
                     }

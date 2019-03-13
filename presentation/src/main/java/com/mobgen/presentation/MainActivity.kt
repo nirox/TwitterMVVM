@@ -25,9 +25,9 @@ class MainActivity : DaggerAppCompatActivity(), FragmentListener {
         setContentView(R.layout.main_activity)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
 
-        viewModel.status.observe(this, Observer {
-            it?.let { status ->
-                if (status == BaseViewModel.Status.SUCCESS) {
+        viewModel.data.observe(this, Observer {
+            it?.let { data ->
+                if (data.status == BaseViewModel.Status.SUCCESS) {
                     goTweetListFragment()
                 }
             }
