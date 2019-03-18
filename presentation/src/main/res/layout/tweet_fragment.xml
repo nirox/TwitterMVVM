@@ -8,6 +8,7 @@
     android:background="@android:color/white"
     android:clickable="true"
     android:orientation="vertical"
+    android:padding="12dp"
     tools:context=".tweet.TweetFragment">
 
     <android.support.constraint.ConstraintLayout
@@ -16,10 +17,8 @@
 
         <ImageView
             android:id="@+id/userImage"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="12dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@android:drawable/ic_lock_lock" />
@@ -29,8 +28,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
             android:textColor="@android:color/black"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/userImage"
@@ -43,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="8dp"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/userImage"
             app:layout_constraintTop_toBottomOf="@+id/userName"
@@ -53,11 +52,9 @@
             android:id="@+id/twitterContent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="12dp"
-            android:paddingBottom="12dp"
-            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/userId"
@@ -67,32 +64,59 @@
             android:id="@+id/twitterMedia"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="12dp"
-            android:paddingBottom="12dp"
+            android:layout_marginTop="12dp"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/twitterContent"
             tools:visibility="visible" />
 
-        <VideoView
-            android:id="@+id/twitterVideo"
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/twitterVideoContent"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="12dp"
-            android:paddingBottom="12dp"
+            android:layout_height="250dp"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="@android:color/black"
             android:visibility="gone"
-            app:layout_constraintDimensionRatio="H, 9:16"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/twitterContent"
-            tools:visibility="visible" />
+            card_view:cardCornerRadius="40dp">
+
+            <VideoView
+                android:id="@+id/twitterVideo"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginVertical="20dp"
+                android:layout_marginTop="16dp" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.constraint.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="twitterMedia,twitterVideoContent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="450dp" />
+
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/userId"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/barrier"
+            tools:text="17s" />
     </android.support.constraint.ConstraintLayout>
 
 </ScrollView>

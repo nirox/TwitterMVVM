@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.FitCenter
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.mobgen.presentation.R
 import com.mobgen.presentation.ViewHolder
@@ -12,6 +14,10 @@ import kotlinx.android.synthetic.main.item_tweet.view.*
 
 class TwitterListAdapter(private var list: List<TweetBindView>, private val listener: OnClickItemListener) :
     RecyclerView.Adapter<TwitterListAdapter.DataViewHolder>() {
+
+    companion object {
+        private const val RADIUS = 40
+    }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, type: Int) = DataViewHolder(
         LayoutInflater.from(viewGroup.context).inflate(
@@ -55,12 +61,13 @@ class TwitterListAdapter(private var list: List<TweetBindView>, private val list
                 .into(itemView.userImage)
             itemView.userId.text = value.userId
             itemView.userName.text = value.name
+            itemView.date.text = String.format(itemView.context.getString(R.string.dateFormat), value.date)
             itemView.twitterContent.text = value.content
             itemView.twitterMedia.visibility = View.GONE
-            itemView.twitterVideo.visibility = View.GONE
+            itemView.twitterVideoContent.visibility = View.GONE
             if (value.videos.isNotEmpty()) {
+                itemView.twitterVideoContent.visibility = View.VISIBLE
                 itemView.twitterVideo.apply {
-                    visibility = View.VISIBLE
                     setVideoPath(value.videos.first())
                     seekTo(1)
                 }
@@ -68,6 +75,7 @@ class TwitterListAdapter(private var list: List<TweetBindView>, private val list
                 if (value.medias.isNotEmpty()) {
                     itemView.twitterMedia.visibility = View.VISIBLE
                     Glide.with(itemView.context).load(value.medias.first())
+                        .apply(RequestOptions().transform(FitCenter(), RoundedCorners(RADIUS)))
                         .into(itemView.twitterMedia)
                 }
             }

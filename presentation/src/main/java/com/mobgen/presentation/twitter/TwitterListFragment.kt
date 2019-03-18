@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -110,6 +111,12 @@ class TwitterListFragment : DaggerFragment() {
         linearLayoutManager = LinearLayoutManager(context)
         twitterList.layoutManager = linearLayoutManager
         twitterList.adapter = twitterListAdapter
+        twitterList.addItemDecoration(
+            DividerItemDecoration(
+                context,
+                linearLayoutManager.orientation
+            )
+        )
         twitterList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)

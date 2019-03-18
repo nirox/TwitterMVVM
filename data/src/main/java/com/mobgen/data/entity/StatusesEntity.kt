@@ -12,5 +12,7 @@ data class StatusesEntity(
     @SerializedName("extended_entities")
     val extendedEntities: EntitiesEntity?,
     @SerializedName("user")
-    val userEntity: UserEntity
+    val userEntity: UserEntity,
+    @SerializedName("created_at")
+    val date: String
 )

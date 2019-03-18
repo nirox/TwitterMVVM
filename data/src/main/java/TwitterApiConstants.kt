@@ -10,5 +10,6 @@ class TwitterApiConstants {
         const val AUTHORIZATION_HEADER_VALUE = "Bearer %s"
         const val AUTHORIZATION_HEADER_CONTENT_TYPE_KEY = "Content-type"
         const val AUTHORIZATION_HEADER_CONTENT_TYPE_VALUE = "application/x-www-form-urlencoded;charset=UTF-8"
+        const val DATE_FORMAT = "EEE MMM dd HH:mm:ss ZZZZZ yyyy"
     }
 }

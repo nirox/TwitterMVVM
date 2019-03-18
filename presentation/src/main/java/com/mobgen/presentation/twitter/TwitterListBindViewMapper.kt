@@ -1,6 +1,7 @@
 package com.mobgen.presentation.twitter
 
 import com.mobgen.domain.model.Tweet
+import com.mobgen.presentation.Util
 import com.mobgen.presentation.ViewMapper
 import javax.inject.Inject
 
@@ -13,7 +14,8 @@ class TwitterListBindViewMapper @Inject constructor() : ViewMapper<Tweet, TweetB
             value.name.trim(),
             value.content.trim(),
             value.medias,
-            value.videos
+            value.videos,
+            Util.getTweetDateFormated(value.date, Util.SHORT_FORMAT_DATE)
         )
     }
 

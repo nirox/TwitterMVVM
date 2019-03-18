@@ -6,5 +6,6 @@ data class TweetBindView(
     val name: String = "",
     val content: String = "",
     val medias: List<String> = listOf(),
-    val videos: List<String> = listOf()
+    val videos: List<String> = listOf(),
+    val date: String = ""
 )
