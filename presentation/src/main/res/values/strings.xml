@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search">Search</string>
+    <string name="mobgen_time_line">MOBGEN - TimeLine</string>
+    <string name="dateFormat">. %1$s</string>
+</resources>
