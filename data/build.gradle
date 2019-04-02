@@ -3,8 +3,22 @@ apply plugin: 'kotlin'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    //kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    //rxKotlin
+    implementation "io.reactivex.rxjava2:rxkotlin:$rxKotlin_version"
+    //dagger
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    //okHttp
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpLoggingInterceptor"
+    //retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+    //gson
+    implementation "com.google.code.gson:gson:$gson_version"
 
+    //module dependencies
     implementation project(':domain')
 }
 

@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mobgen.twittermvvm">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:name=".TwitterApplication"
         android:allowBackup="true"
@@ -12,8 +13,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name="com.mobgen.presentation.MainActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
